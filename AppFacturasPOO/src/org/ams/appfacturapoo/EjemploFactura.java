@@ -1,9 +1,6 @@
 package org.ams.appfacturapoo;
 
-import org.ams.appfacturapoo.models.Cliente;
-import org.ams.appfacturapoo.models.Factura;
-import org.ams.appfacturapoo.models.ItemFactura;
-import org.ams.appfacturapoo.models.Producto;
+import org.ams.appfacturapoo.models.*;
 
 import java.util.Scanner;
 
@@ -19,30 +16,23 @@ public class EjemploFactura {
         Factura factura = new Factura(descripcion,cliente);
 
         Producto producto;
-        String nombre;
-        float precio;
-        int catidad;
+
 
         System.out.println();
         for (int  i=0; i<5; i++){
             producto = new Producto();
             System.out.print("Ingrese producto numero: "+producto.getCodigo() + ": ");
-            nombre = scanner.next();
-            producto.setNombre(nombre);
+            producto.setNombre(scanner.nextLine());
 
             System.out.print("Ingrese el precio: ");
-            precio = scanner.nextFloat();
-            producto.setPrecio(precio);
+            producto.setPrecio(scanner.nextFloat());
 
             System.out.print("Ingrese la cantidad: ");
-            catidad = scanner.nextInt();
-
-            ItemFactura item = new ItemFactura(catidad, producto);
-            factura.addItemFactura(item);
+            factura.addItemFactura(new ItemFactura(scanner.nextInt(), producto));
 
             System.out.println();
             scanner.nextLine(); 
         }
-        System.out.println(factura.generarDetalle());
+        System.out.println(factura);
     }
 }
