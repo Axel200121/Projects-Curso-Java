@@ -1,5 +1,6 @@
 package org.ams.appfacturapoo.models;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Factura {
@@ -73,15 +74,38 @@ public class Factura {
     public String generarDetalle(){
         StringBuilder sb = new StringBuilder("Factura Numero: ");
         sb.append(this.folio)
-                .append("\n Cliente: ")
+                .append("\nCliente: ")
                 .append(this.cliente.getNombre())
-                .append("\t NIF: ")
+                .append("\tNIF: ")
                 .append(this.cliente.getNif())
-                .append("\n Descripción: ")
+                .append("\nDescripción: ")
                 .append(this.descripcion)
+                .append("\n");
+        //Formateo de fecha
+        SimpleDateFormat df = new SimpleDateFormat("dd 'de' MMMM, yyyy");
+        sb.append("Fecha de emision: ")
+                .append(df.format(this.fecha))
                 .append("\n")
                 .append("\n#\tNombre\t$\tCant.\tTotal\n");
 
+        for (ItemFactura item: this.items) {
+            if (item == null){
+                continue;
+            }
+            sb.append(item.getProducto().getCodigo())
+                    .append("\t")
+                    .append(item.getProducto().getNombre())
+                    .append("\t")
+                    .append(item.getProducto().getPrecio())
+                    .append("\t")
+                    .append(item.getCantidad())
+                    .append("\t")
+                    .append(item.calcularImporte())
+                    .append("\n");
+
+            sb.append("\n Gran total: ")
+                    .append(calcularTotal());
+        }
         return sb.toString();
     }
 }
